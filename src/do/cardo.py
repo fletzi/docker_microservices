@@ -18,19 +18,19 @@ class CarDO():
         self.i_width_city_to_ship = 15
 
     def print_car_info(self):
-        print("Id:", self.i_id_car)
-        print("Model Code:", self.s_model_code)
-        print("Color Code:", self.s_color_code)
-        print("Extras:", self.s_extras)
+        print("■ Fahrzeug ID: ", self.i_id_car)
+        print("■ Fahrzeugmodel: ", self.s_model_code)
+        print("■ Farbe: ", self.s_color_code)
+        print("■ Extras: ", self.s_extras)
         s_side = self.get_word_for_driving_side()
-        print("Drive by side:", s_side)
-        print("City to ship:", self.s_city_to_ship)
+        print("■ Lenkradposition :", s_side)
+        print("■ Lieferdestination: ", self.s_city_to_ship)
 
     def get_word_for_driving_side(self):
         if self.i_right_side == 1:
-            s_side = "Right"
+            s_side = "Rechtslenker"
         else:
-            s_side = "Left"
+            s_side = "Linkslenker"
 
         return s_side
 
@@ -46,12 +46,12 @@ class CarDO():
         return s_output
 
     def get_car_header_for_list(self):
-        s_output = str("Id Car").rjust(self.i_width_id_car) + " "
-        s_output += "Model Code".rjust(self.i_width_model_code) + " "
-        s_output += "Color Code".rjust(self.i_width_color_code) + " "
+        s_output = str("Fahrzeug ID").rjust(self.i_width_id_car) + " "
+        s_output += "Fahrzeugmodel".rjust(self.i_width_model_code) + " "
+        s_output += "Farbe".rjust(self.i_width_color_code) + " "
         s_output += "Extras".rjust(self.i_width_extras) + " "
-        s_output += "Drive".rjust(self.i_width_side) + " "
-        s_output += "City to Ship".rjust(self.i_width_city_to_ship)
+        s_output += "Lenkradposition".rjust(self.i_width_side) + " "
+        s_output += "Lieferdestination".rjust(self.i_width_city_to_ship)
 
         i_total_length = self.i_width_id_car + self.i_width_model_code + self.i_width_color_code + self.i_width_extras + self.i_width_side + self.i_width_city_to_ship
         # Add the space between fields
