@@ -12,18 +12,19 @@ class QueueManager():
 
     def main_menu(self):
         while True:
-            print("Main Menu")
-            print("=========")
-            print("")
-            print("1. Add new car to queue")
-            print("2. List all cars to queue")
-            print("3. View car by Id")
-            print("4. Delete car from queue by Id")
-            print("")
-            print("0. Exit")
-            print("")
+            print("┌─────────────────────────────────────────────────┐")
+            print("│                   • Hauptmenü •                 │")
+            print("├─────────────────────────────────────────────────┤")
+            print("│                                                 │")
+            print("│ [1] Fahrzeug zur Warteschlange hinzufügen       │")
+            print("│ [2] Warteschlange ausgeben                      │")
+            print("│ [3] Fahrzeug über ID ausgeben                   │")
+            print("│ [4] Fahrzeug über ID aus Wartschelange löschen  │")
+            print("├─────────────────────────────────────────────────┤")
+            print("│ [0] Menü Verlassen                              │")
+            print("└─────────────────────────────────────────────────┘")
 
-            s_option = input("Choose your option:")
+            s_option = input("▨ Option wählen ›")
             if s_option == "1":
                 self.add_new_car()
             if s_option == "2":
@@ -92,22 +93,23 @@ class QueueManager():
         i_inserted_row_count = self.o_mysql.insert(s_sql)
 
         if i_inserted_row_count > 0:
-            print("Inserted", i_inserted_row_count, " row/s")
+            print("■ ", i_inserted_row_count, " Zeile(n) eingefügt")
             b_success = True
         else:
-            print("It was impossible to insert the row")
+            print("▣ Einfügen der Zeile ist Fehlgeschlagen!")
             b_success = False
 
         return b_success
 
     def add_new_car(self):
-        print("Add new car")
-        print("===========")
+        print("┌─────────────────────────────────────────────────┐")
+        print("│           • Neues Fahrzeug hinzufügen •         │")
+        print("└─────────────────────────────────────────────────┘")
 
         while True:
-            s_id_car = input("Enter new ID: ")
+            s_id_car = input("▨ Fahrzeug ID festlegen › ")
             if s_id_car == "":
-                print("A numeric Id is needed")
+                print("▣ Die Fahrzeug ID muss numerisch sein!")
                 continue
 
             i_id_car = int(s_id_car)
@@ -115,23 +117,23 @@ class QueueManager():
             if i_id_car < 1:
                 continue
 
-            # Check if that id existed already
+            # Prüfen ob ID bereits verwendet wird
             b_success, o_car = self.get_car_by_id(i_id_car=i_id_car)
             if b_success is False:
-                # Does not exist
+                # Falls nicht:
                 break
 
-            print("Sorry, this Id already exists")
+            print("▣ Die Fahrzeug ID ist bereits vergeben!")
 
-        s_model_code = input("Enter Model Code:")
-        s_color_code = input("Enter Color Code:")
-        s_extras = input("Enter extras comma separated:")
-        s_right_side = input("Enter R for Right side driven:")
+        s_model_code = input("▨ Fahrzeug Modell festlegen › ")
+        s_color_code = input("▨ Fahrzeug Farbcode festlegen › ")
+        s_extras = input("▨ Fahrzeug Extras festlegen (durch Komma separiert) › ")
+        s_right_side = input("▨ R - Rechtslenker | L - Linkslenker › ")
         if s_right_side.upper() == "R":
             i_right_side = 1
         else:
             i_right_side = 0
-        s_city_to_ship = input("Enter the city to ship the car:")
+        s_city_to_ship = input("▨ In welchen Standort soll das Fahrzeug geliefert werden › ")
 
         # Sanitize SQL replacing apostrophe
         s_model_code = self.replace_apostrophe(s_model_code)
@@ -150,7 +152,7 @@ class QueueManager():
         if len(a_o_cars) > 0:
             print(a_o_cars[0].get_car_header_for_list())
         else:
-            print("No cars in queue")
+            print("▣ Es befinden sich keine Autos in der Warteschlange!")
             print("")
             return
 
@@ -161,14 +163,14 @@ class QueueManager():
 
     def see_car_by_id(self, i_id_car=0):
         if i_id_car == 0:
-            s_id = input("Car Id:")
+            s_id = input("▨ Fahrzeug ID › ")
             i_id_car = int(s_id)
 
         s_id_car = str(i_id_car)
 
         b_success, o_car = self.get_car_by_id(i_id_car=i_id_car)
         if b_success is False:
-            print("Error, car id: " + s_id_car + " not located.")
+            print("▣ Error, Fahrzeug ID: " + s_id_car + " ist nicht vorhanden.")
             return False
 
         print("")
@@ -179,24 +181,24 @@ class QueueManager():
 
     def delete_by_id(self):
 
-        s_id = input("Enter Id of car to delete:")
+        s_id = input("▨ ID von zu löschendem Fahrzeug › :")
         i_id_car = int(s_id)
 
         if i_id_car == 0:
-            print("Invalid Id")
+            print("▣ Error ungültige Id")
             return
 
-        # reuse see_car_by_id
+        # Wiederverwendung see_car_by_id
         b_found = self.see_car_by_id(i_id_car=i_id_car)
         if b_found is False:
             return
 
-        s_delete = input("Are you sure you want to DELETE. Type Y to delete: ")
+        s_delete = input("▨ Wollen Sie das Fahrzeug wirklich LÖSCHEN. Geben Sie Y zum löschen ein: ")
         if s_delete.upper() == "Y":
             s_sql = "DELETE FROM car_queue WHERE i_id_car=" + str(i_id_car)
             i_num = self.o_mysql.delete(s_sql)
 
-            print(i_num, " Rows deleted")
+            print("▣ ", i_num, " Zeile(n) gelöscht")
 
             # if b_success is True:
             #     print("Car deleted successfully from the queue")
@@ -211,4 +213,4 @@ if __name__ == "__main__":
         o_queue_manager = QueueManager(o_mysql=o_mysql)
         o_queue_manager.main_menu()
     except KeyboardInterrupt:
-        print("Detected CTRL + C. Exiting")
+        print("▣ CTRL + C erkannt. Verlassen...")

@@ -16,5 +16,6 @@ CREATE TABLE car_queue (
     s_city_to_ship varchar(25)
 );
 
-INSERT INTO car_queue (i_id_car, s_model_code, s_color_code, s_extras, i_right_side, s_city_to_ship) VALUES (1, "GOLF2021", "BLUE7", "COND_AIR, GPS, MULTIMEDIA_V3", 0, "Barcelona");
-INSERT INTO car_queue (i_id_car, s_model_code, s_color_code, s_extras, i_right_side, s_city_to_ship) VALUES (2, "GOLF2021_PLUGIN_HYBRID", "BLUEMETAL_5", "COND_AIR, GPS, MULTIMEDIA_V3, SECURITY_V5", 1, "Cork");
+INSERT INTO car_queue (i_id_car, s_model_code, s_color_code, s_extras, i_right_side, s_city_to_ship) VALUES (1, "Golf 6", "Silberweiß", "2WD, GPS, MULTIMEDIA_V3", 0, "Wolfsburg");
+INSERT INTO car_queue (i_id_car, s_model_code, s_color_code, s_extras, i_right_side, s_city_to_ship) VALUES (2, "Mercedes Benz A 2021", "Midnightblack", "COND_AIR, GPS, MULTIMEDIA_V3, SECURITY_V5", 0, "Weinheim");
+INSERT INTO car_queue (i_id_car, s_model_code, s_color_code, s_extras, i_right_side, s_city_to_ship) VALUES (2, "Ford Ka 2009", "White", "FUEL_EFF_V3", 0, "Seckenheim");
