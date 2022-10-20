@@ -1,0 +1,60 @@
+version: '3'
+
+networks:
+  carbridge:
+    driver: bridge
+  partbridge:
+    driver: bridge
+
+volumes:
+  car-volume:
+  part-volume:
+
+services:
+  queuemanager:
+    build: python/python_queue/
+    container_name: car_queue_manager
+    tty: true
+    stdin_open: true
+    depends_on:
+      - mysql_car
+    networks:
+      - carbridge
+
+  partmanager:
+    build: python/python_part/
+    container_name: part_manager
+    tty: true
+    stdin_open: true
+    depends_on:
+      - mysql_part
+    networks:
+      - partbridge
+
+  mysql_car:
+    build: mysql/mysql_queue/
+    restart: always
+    container_name: car_queue_manager_db
+    environment:
+      MYSQL_DATABASE: 'db'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - '3307:3306'
+    networks:
+      - carbridge
+    volumes:
+      - car-volume:/data/db
+
+  mysql_part:
+    build: mysql/mysql_part/
+    restart: always
+    container_name: part_manager_db
+    environment:
+      MYSQL_DATABASE: 'db_part'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - '3308:3306'
+    networks:
+      - partbridge
+    volumes:
+      - part-volume:/data/db
